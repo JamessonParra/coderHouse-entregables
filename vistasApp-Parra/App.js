@@ -29,7 +29,7 @@ function App() {
           name="About"
           component={AboutScreen}
           options={({ navigation }) => ({
-            title: 'Mí historia',
+            title: 'Inicio',
             headerLeft: () => (
               <HeaderBackButton
                 onPress={() => navigation.goBack()}
@@ -49,7 +49,7 @@ function App() {
           name="Contact"
           component={ContactScreen}
           options={({ navigation }) => ({
-            title: 'Contactos',
+            title: 'Inicio',
             headerLeft: () => (
               <HeaderBackButton
                 onPress={() => navigation.goBack()}
