@@ -9,7 +9,7 @@ function HomeScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>ENTREGABLE 4</Text>
       <TouchableOpacity onPress={() => navigation.navigate('About')} style={styles.card}>
-        <Text style={styles.cardTitle}>Acerca de mí</Text>
+        <Text style={styles.cardTitle}>Mí historia</Text>
         <Text style={styles.cardText}>Learn more about our team and our mission.</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Contact')} style={styles.card}>
