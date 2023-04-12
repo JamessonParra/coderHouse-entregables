@@ -44,11 +44,9 @@ const MapScreen = () => {
               );
             } else {
               console.error('Location permission denied');
-              // Resto del código en caso de permiso denegado...
             }
           } else {
             console.error('Location permission denied');
-            // Resto del código en caso de permiso denegado...
           }
         } catch (err) {
           console.warn(err);
