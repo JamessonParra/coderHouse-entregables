@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser } from '../actions/userActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -56,16 +56,20 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('AddUser', { user });
   }
 
-  const handleGoToCameraScreen = () => {
-    navigation.navigate('Camera');
-  };
-
-  const handleGoToMapScreen = () => {
-    navigation.navigate('Map');
-  };
-
   const handleShowMore = () => {
     setShowMore(true);
+  }
+
+  const handleCamera = () => {
+    navigation.navigate('Camera');
+  }
+
+  const handleMap = () => {
+    navigation.navigate('Map');
+  }
+
+  const handleAddUserButton = () => {
+    navigation.navigate('AddUser');
   }
 
   const renderUser = ({ item }) => (
@@ -75,19 +79,7 @@ const HomeScreen = ({ navigation }) => {
   const keyExtractor = (item) => (item.id ? item.id.toString() : '');
 
   return (
-    <SafeAreaView style={styles.container}>
-     
-      <View style={styles.bottomButtonsContainer}>
-        <TouchableOpacity onPress={handleAddUser} style={styles.addButton}>
-          <Text style={styles.addButtonText}>+</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleGoToCameraScreen}>
-          <Text style={styles.buttonText}>Ir a cámara</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleGoToMapScreen}>
-          <Text style={styles.buttonText}>Ir a mapa</Text>
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
       <FlatList
         data={users}
         renderItem={renderUser}
@@ -107,132 +99,70 @@ const HomeScreen = ({ navigation }) => {
         }}
         refreshing={false}
       />
-    </SafeAreaView>
-  );
-};
-
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity onPress={handleAddUser} style={styles.bottomButton}>
+          <Text style={styles.bottomButtonText}>Nuevo User +</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleCamera} style={styles.bottomButton}>
+          <Text style={styles.bottomButtonText}>Cámara</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bottomButton} onPress={handleMap} >
+          <Text Text style={styles.bottomButtonText}>Mapa</Text>
+        </TouchableOpacity>
+</View>
+</View>
+);
+}
 
 const styles = StyleSheet.create({
-  
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-  },
-  addButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: '#8BC34A',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
-    elevation: 5,
-    pointerEvents: 'box-none',
-    zIndex: 1
-  },
-  addButtonText: {
-    fontSize: 24,
-    color: '#fff',
-  },
-  button: {
-    backgroundColor: 'blue',
-    borderRadius: 5,
-    padding: 10,
-    margin: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  userContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  userInfo: {
-    flex: 1,
-    paddingRight: 10,
-  },
-  userName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  userEmail: {
-    fontSize: 14,
-    color: '#888',
-  },
-  deleteButton: {
-    backgroundColor: '#E91E63',
-    paddingHorizontal: 5,
-    paddingVertical: 3,
-    borderRadius: 4,
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontSize: 10,
-  },
-  editButton: {
-    backgroundColor: '#8BC34A',
-    paddingHorizontal: 5,
-    paddingVertical: 3,
-    borderRadius: 4,
-  },
-  editButtonText: {
-    color: '#fff',
-    fontSize: 10,
-  },
-  noUsersText: {
-    alignSelf: 'center',
-    marginTop: 20,
-    fontSize: 16,
-    color: '#888',
-  },
-  viewMoreButton: {
-    backgroundColor: '#8BC34A',
-    paddingHorizontal: 5,
-    paddingVertical: 3,
-    borderRadius: 4,
-  },
-  viewMoreButtonText: {
-    color: '#fff',
-    fontSize: 10,
-  },
-  bottomButtonsContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    paddingVertical: 10,
-  },
-    bottomButton: {
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: '#8BC34A',
-  },
-    bottomButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  }
+container: {
+flex: 1,
+backgroundColor: '#fff',
+alignItems: 'center',
+justifyContent: 'center',
+},
+header: {
+flexDirection: 'row',
+alignItems: 'center',
+justifyContent: 'center',
+height: 80,
+width: '100%',
+backgroundColor: '#4F3EAE',
+paddingTop: 30,
+},
+headerText: {
+color: '#fff',
+fontSize: 20,
+fontWeight: 'bold',
+},
+cameraContainer: {
+flex: 1,
+width: '100%',
+backgroundColor: '#000',
+},
+bottomButtonsContainer: {
+flexDirection: 'row',
+justifyContent: 'center',
+alignItems: 'center',
+position: 'absolute',
+bottom: 30,
+width: '100%',
+},
+bottomButton: {
+flexDirection: 'column',
+alignItems: 'center',
+marginHorizontal: 20,
+},
+bottomButtonIcon: {
+height: 50,
+width: 50,
+marginBottom: 10,
+},
+bottomButtonText: {
+color: '#333',
+fontSize: 14,
+fontWeight: 'bold',
+},
 });
 
 export default HomeScreen;

@@ -6,10 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginForm from './src/screens/LoginFormScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import AddUserScreen from './src/screens/AddUserScreen';
-
-import { store, persistor } from './src/store/store';
 import CameraScreen from './src/screens/CameraScreen';
 import MapScreen from './src/screens/MapScreen';
+
+import { store, persistor } from './src/store/store';
 
 const Stack = createStackNavigator();
 
@@ -20,14 +20,13 @@ const App = () => (
         <Stack.Navigator>
           <Stack.Screen name="Login" component={LoginForm} />
           <Stack.Screen name="Welcome" component={HomeScreen} />
-          <Stack.Screen name="AddUser" component={AddUserScreen} />
           <Stack.Screen name="Camera" component={CameraScreen} />
           <Stack.Screen name="Map" component={MapScreen} />
+          <Stack.Screen name="AddUser" component={AddUserScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PersistGate>
   </Provider>
 );
-
 
 export default App;
