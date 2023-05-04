@@ -1,46 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { RNCamera } from 'react-native-camera';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Camera } from 'expo-camera';
 
 const CameraScreen = ({ navigation }) => {
-  const [camera, setCamera] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
+  const cameraRef = useRef(null);
 
   useEffect(() => {
-    // Pide permiso al usuario para utilizar la cámara
     (async () => {
-      const { status } = await RNCamera.requestPermissionsAsync();
-      if (status === 'granted') {
-        console.log('Permission to use camera granted');
-      } else {
-        console.log('Permission to use camera denied');
-      }
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
     })();
   }, []);
 
+  const handleBack = () => {
+    navigation.goBack();
+  }
+
   const takePicture = async () => {
-    if (camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await camera.takePictureAsync(options);
-      console.log(data.uri);
+    if (cameraRef.current) {
+      const photo = await cameraRef.current.takePictureAsync();
+      console.log(photo);
     }
-  };
+  }
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No se ha concedido permiso para acceder a la cámara</Text>;
+  }
 
   return (
     <View style={styles.container}>
-      <RNCamera
-        style={styles.camera}
-        ref={(ref) => setCamera(ref)}
-        captureAudio={false}
-      />
-      <TouchableOpacity onPress={takePicture} style={styles.capture}>
-        <Text style={styles.captureText}>Take Picture</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButton}
-      >
-        <Text style={styles.backButtonText}>{'< Back'}</Text>
-      </TouchableOpacity>
+      <Camera style={styles.camera} ref={cameraRef}>
+        <View style={styles.cameraButtons}>
+          <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+            <Text style={styles.buttonText}>Atras</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.takePictureButton} onPress={takePicture}>
+            <Text style={styles.buttonText}>Tomar Foto</Text>
+          </TouchableOpacity>
+        </View>
+      </Camera>
     </View>
   );
 };
@@ -48,33 +50,30 @@ const CameraScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000',
+    flexDirection: 'column',
+    backgroundColor: 'black',
   },
   camera: {
     flex: 1,
-    width: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
-  capture: {
-    position: 'absolute',
-    bottom: 32,
-    backgroundColor: '#fff',
-    borderRadius: 24,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-  },
-  captureText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
+  cameraButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   backButton: {
-    position: 'absolute',
-    top: 32,
-    left: 16,
+    flex: 1,
+    alignItems: 'center',
+    padding: 20,
   },
-  backButtonText: {
+  takePictureButton: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 20,
+  },
+  buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
