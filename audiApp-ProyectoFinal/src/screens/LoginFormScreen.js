@@ -10,9 +10,13 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation(); // obtener navegación
 
-  const handleLogin = () => {
-    dispatch(login(email, password));
-    navigation.navigate('Welcome'); // redireccionar a HomeScreen después de iniciar sesión
+  const handleLogin = async () => {
+    try {
+      const success = await dispatch(login(email, password));
+      if (success) navigation.navigate('Welcome');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
